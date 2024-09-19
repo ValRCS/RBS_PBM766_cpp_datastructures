@@ -5,6 +5,10 @@
 // math for abs function
 #include <cmath>
 
+// let's declare static global variable for holding big sum of integers
+//  static int big_sum = 0; //this is a global variable that is only visible in this file and it is initialized to 0
+// in general we try to avoid global variables but sometimes they are useful
+
 // i am going to declare my_abs function first
 int my_abs(int x); // so we can call this also function prototype or signature
 // let's declare my_max function for doubles
@@ -81,6 +85,9 @@ int main(int argc, char *argv[])
     double first_avg = (double)first_sum / num_rolls;
     double second_avg = (double)second_sum / num_rolls;
     std::cout << "First average: " << first_avg << " Second average: " << second_avg << std::endl;
+
+    // now let's print big_sum
+    //  std::cout << "Big sum: " << big_sum << std::endl;
     return 0;
 }
 
@@ -113,20 +120,25 @@ int roll_dice()
 {
     return rand() % 6 + 1;
 }
-//note I did not declare it up top as I wanted to show that you can declare functions in any order
-//if I wanted to use this function in main I would have declared it up top
+// note I did not declare it up top as I wanted to show that you can declare functions in any order
+// if I wanted to use this function in main I would have declared it up top
 
 // let's implement this roll_two_dice function
-void roll_two_dice(int &first, int &second)
+void roll_two_dice(int &first_dice, int &second_dice)
 {
     // we will use rand function to generate random numbers
     // rand generates a random number between 0 and RAND_MAX
     // we will use modulo operator to get a number between 1 and 6
-    //  first = rand() % 6 + 1; //this row should really be its own function
-    //  second = rand() % 6 + 1;
-    first = roll_dice();
-    second = roll_dice();
+    //  first_dice = rand() % 6 + 1; //this row should really be its own function
+    //  second_dice = rand() % 6 + 1;
+    first_dice = roll_dice();  // we are modifying the value of first_dice so whatever we pass in will be modified!!
+    second_dice = roll_dice(); // same as for first_dice, original value will be lost in second_dice that was passed it
     // so we are done here
     // no return needed as we are using references
+
+    // if we had a global variable big_sum we could have done this
+    //  big_sum += first_dice + second_dice; // we are updating the global variable big_sum
+    // not a good practice here but to see what is happening
 }
 // note I would have started with single dice but I wanted to show references
+// think about what to do if we need to return 100 dice, 1000 dice, 1000000 dice?
