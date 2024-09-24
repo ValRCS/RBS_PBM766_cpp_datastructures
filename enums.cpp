@@ -14,6 +14,9 @@ enum Week {
     Sunday
 };
 
+//let's create a typedef for Week
+typedef Week W; //just an alias for Week, of course W is a bit short for Week
+
 //let's try weekend enum
 //this will cause name collision with Week enum
 // enum Weekend {
@@ -22,6 +25,23 @@ enum Week {
 // };
 
 using namespace std; //now we do not have to prefix cout, cin, etc with std::
+
+//let's make a function that returns bool if it is a weekday
+bool isWeekday(Week day) {
+    //return day >= Monday && day <= Friday; //this could be written as day < Saturday but this is more readable
+    //personally I would consider full names for the days of the week in switch statements
+    switch (day) {
+        case Monday:
+        case Tuesday:
+        case Wednesday:
+        case Thursday:
+        case Friday:
+        //also easy to add Saturday if you have an evil boss
+            return true;
+        default:
+            return false;
+    }
+}
 
 //let's use them
 int main() {
@@ -66,7 +86,46 @@ int main() {
 
     std::cout << "Day " << today + 1 << std::endl;
 
-    
+    //now let's loop through all the days of the week
+    for (Week day = Monday; day <= Sunday; day = static_cast<Week>(day + 1)) {
+        std::cout << "Day " << day + 1 << std::endl;
+    }
+    //day should be out of scope here - good! you want your scope to be as small as possible
+
+    //it is very common to use enums in switch statements
+
+    Week day = Tuesday;
+    switch (day) {
+        case Monday:
+            std::cout << "It's Monday!" << std::endl;
+            break;
+        case Tuesday:
+            std::cout << "It's Tuesday!" << std::endl;
+            break;
+        case Wednesday:
+            std::cout << "It's Wednesday!" << std::endl;
+            break;
+        case Thursday:
+            std::cout << "It's Thursday!" << std::endl;
+            break;
+        case Friday:
+            std::cout << "It's Friday!" << std::endl;
+            break;
+        case Saturday:
+            std::cout << "It's Saturday!" << std::endl;
+            break;
+        case Sunday:
+            std::cout << "It's Sunday!" << std::endl;
+            break;
+        default:
+            std::cout << "It's not a day of the week!" << std::endl;
+            break;
+    }
+
+    //since I defined W in typedef, I can use W instead of Week
+    //in practice W is a bit too short for Week, very short names can be hard to read
+    W anotherDay2 = Sunday; //So W is just an alias for Week
+    cout << "Day " << anotherDay2 + 1 << endl;
 
     cout << "Whew all done!" << endl;
     return 0;
