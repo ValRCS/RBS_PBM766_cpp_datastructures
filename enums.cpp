@@ -43,6 +43,38 @@ bool isWeekday(Week day) {
     }
 }
 
+//how about a function to adjust a day by a number of days and return the new day
+Week adjustDay(Week day, int days) {
+    return static_cast<Week>((day + days) % 7); //of course 7 is the number of days in a week
+}
+
+//how about similar function that modifies the day in place
+void adjustDayInPlace(Week &day, int days) {
+    day = static_cast<Week>((day + days) % 7);
+}
+
+//let's make a function to return string representation of the day
+string dayToString(Week day) {
+    switch (day) {
+        case Monday:
+            return "Monday";
+        case Tuesday:
+            return "Tuesday";
+        case Wednesday:
+            return "Wednesday";
+        case Thursday:
+            return "Thursday";
+        case Friday:
+            return "Friday";
+        case Saturday:
+            return "Saturday";
+        case Sunday:
+            return "Sunday";
+        default:
+            return "Not a day of the week";
+    }
+}
+
 //let's use them
 int main() {
     Week today; //note I am using the enum Week here as data type here
@@ -126,6 +158,16 @@ int main() {
     //in practice W is a bit too short for Week, very short names can be hard to read
     W anotherDay2 = Sunday; //So W is just an alias for Week
     cout << "Day " << anotherDay2 + 1 << endl;
+
+    //let's use our adjustDay function
+    //this is OUT OF PLACE function
+    Week day2 = adjustDay(Tuesday, 50); //so what day of week is 50 days after Tuesday?
+    cout << "Day " << day2 + 1 << " " << dayToString(day2) << endl;
+    //now let's use our IN PLACE function
+    Week day3 = Tuesday;
+    //we modify day3 in place by passing it by reference so it is changed
+    adjustDayInPlace(day3, 50); //so what day of week is 50 days after Tuesday?
+    cout << "Day " << day3 + 1 << " " << dayToString(day3) << endl;
 
     cout << "Whew all done!" << endl;
     return 0;
