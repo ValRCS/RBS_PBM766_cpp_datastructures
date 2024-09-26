@@ -16,6 +16,19 @@ size_t const ARR_SIZE = 10; //less magic numbers
 
 //for now we will put the array in main
 
+//let's make a function that prints all elements of an array
+//arrays are passed as references to functions
+//thus you do not need to pass the size of the array
+
+//to safely use c type arrays in functions you need to pass the size of !!
+void print_array(int arr[], size_t arr_size) {
+    cout << "Size of array is: " << arr_size << endl;
+    for (size_t i = 0; i < arr_size; i++) {
+        cout << "Element " << i << " is: " << arr[i] << endl;
+    }
+}
+
+
 int main() {
     //let's have an array of 10 integers
     // int arr[10] = {1,2,3,4,5,6,7,8,9,10}; //this is fine
@@ -97,4 +110,21 @@ int main() {
         }
     }
     cout << "Maximum value in the array is: " << max << endl;
+
+    //let's creat a blank array of size 5
+    const size_t ARR_SIZE2 = 5;
+    int arr4[ARR_SIZE2]; //this will create an array of size 5 with no values
+    //let's copy the first 5 elements of arr3 to arr4
+    for (size_t i = 0; i < ARR_SIZE2; i++) {
+        arr4[i] = arr3[i];
+    }
+    //let's print the new 
+    for (size_t i = 0; i < ARR_SIZE2; i++) {
+        cout << "Element " << i << " is: " << arr4[i] << endl;
+    }
+
+    //let's print the array using a function
+    //to do so we need to pass the size of the array
+    //because arrays are passed as references to functions
+    print_array(arr4, ARR_SIZE2);
 }
