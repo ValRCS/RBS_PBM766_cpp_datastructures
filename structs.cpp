@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+//my structs are in gameStructs.h
+#include "gameStructs.h"
 
 using namespace std;
 
@@ -19,22 +21,6 @@ using namespace std;
 //structs are typically defined with a _s suffix - but not required
 // _t is typically for typedefs NOT structs
 
-struct Point {
-    //members of the struct
-    double x; //x coordinate
-    double y; //y coordinate
-};
-
-//let's make a Player struct
-struct Player {
-    //members of the struct
-    string name; //name of the player
-    int health; //health of the player
-    int score; //score of the player
-    //we could also place the player position here
-    //we could use x and y but better would be to  use Point which we already defined
-    Point position; //position of the player
-};
 
 //let's create a function that prints a Point
 //function with classical side effect - printing to console
@@ -67,6 +53,15 @@ bool are_players_equal(Player p1, Player p2) {
         && p1.score == p2.score 
         && p1.position.x == p2.position.x 
         && p1.position.y == p2.position.y;
+}
+
+//lets make a function that returns the player with highest score
+Player get_best_player(Player p1, Player p2) {
+    if (p1.score > p2.score) {
+        return p1;
+    } else {
+        return p2;
+    }
 }
 
 //for now let's use Point inside our main
@@ -171,5 +166,9 @@ int main() {
     } else {
         cout << "Player 4 and Player 5 are different!" << endl;
     }
+
+    //now let's get the player with  highest score
+    Player best_player = get_best_player(player1, player2);
+    cout << "Best player is: " << best_player.name << " with score: " << best_player.score << endl;
     return EXIT_SUCCESS;
 }
