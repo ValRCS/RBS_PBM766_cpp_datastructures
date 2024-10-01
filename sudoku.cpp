@@ -129,6 +129,8 @@ bool solve_board(Board &b) {
     }
     return false;
 }
+//TODO create solver that is NOT recursive - we would simply keep a stack of moves and try to solve the board
+//then backtrack if needed
 
 //lets make a function to read puzzle from text file in 9x9 format
 //we will use 0 for empty cells and 1 to 9 for filled cells
@@ -174,12 +176,12 @@ int main(int argc, char *argv[]) {
     }
     cout << "Initial board:" << endl;
     print_board(b);
-    // if (solve_board(b)) {
-    //     cout << "Solved board:" << endl;
-    //     print_board(b);
-    // } else {
-    //     cout << "Could not solve the board!" << endl;
-    // }
+    if (solve_board(b)) {
+        cout << "Solved board:" << endl;
+        print_board(b);
+    } else {
+        cout << "Could not solve the board!" << endl;
+    }
     return EXIT_SUCCESS;
 }
 
