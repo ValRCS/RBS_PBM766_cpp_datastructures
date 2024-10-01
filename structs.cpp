@@ -53,6 +53,22 @@ void print_player(Player player) {
 //C++ offers also member functions which are more object oriented - but those are for later when we talk about classes
 
 
+//for now to compare two players we would compare ALL their values
+//this is not very efficient and not very practical
+//we could write a function to do this
+bool are_players_equal(Player p1, Player p2) {
+    // if (p1.name == p2.name && p1.health == p2.health && p1.score == p2.score && p1.position.x == p2.position.x && p1.position.y == p2.position.y) {
+    //     return true;
+    // }
+    // return false;
+    //we do not need the if here since we are returning a boolean!!
+    return p1.name == p2.name 
+        && p1.health == p2.health 
+        && p1.score == p2.score 
+        && p1.position.x == p2.position.x 
+        && p1.position.y == p2.position.y;
+}
+
 //for now let's use Point inside our main
 
 int main() {
@@ -140,5 +156,20 @@ int main() {
     // } else {
     //     cout << "Player 1 and Player 2 are different!" << endl;
     // }
+    //lets compare players with our function
+    if (are_players_equal(player1, player2)) {
+        cout << "Player 1 and Player 2 have same contents(not necessarily memory location)!" << endl;
+    } else {
+        cout << "Player 1 and Player 2 are different!" << endl;
+    }
+
+    //let's create 5th player by copying player 4
+    Player player5 = player4;
+    //let's compare player 4 and player 5
+    if (are_players_equal(player4, player5)) {
+        cout << "Player 4 and Player 5 have same contents(not necessarily memory location)!" << endl;
+    } else {
+        cout << "Player 4 and Player 5 are different!" << endl;
+    }
     return EXIT_SUCCESS;
 }
