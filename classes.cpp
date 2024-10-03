@@ -34,12 +34,19 @@ class Animal {
         bool bites = false; //by default animals do not bite, a brave assumption
         //another approach would be to move bites to private and public function would check if animal bites
 
-        //constructor
+        //constructors
+        //default constructor
         Animal(string name, int age, string sound = "Bark") {
             this->name = name;
             this->age = age;
             this->sound = sound;
             cout << "Animal object created" << endl;
+        }
+        //parameterized constructor
+        Animal(string name) {
+            this->name = name;
+            this->age = 900; //Methauselah lived 969 years
+            cout << "Animal object created with default age" << endl;
         }
         //destructor
         ~Animal() {
@@ -79,6 +86,10 @@ int main() {
     cat.display();
     cat.makeSound();
     cat.feed("Fish");
+    //lets use the shorter constructor
+    Animal elephant("Elephant");
+    elephant.feed("Banana");
+    elephant.display();
     return 0;
 }
 
