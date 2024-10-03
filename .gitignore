@@ -9,3 +9,6 @@ vector
 structs
 sudoku
 animal
+factory
+person.o
+personFactory.o
