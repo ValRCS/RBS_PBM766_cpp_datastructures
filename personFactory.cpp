@@ -22,6 +22,8 @@ int main() {
     //lets move and print Alice a few times in same line
     person.move(1).print().move(2).move(3).print(); //FIXME our chain is producing a copy of the object
     //person should be at 6 meters NOT 1 meter!
+    //we FIXED IT in person.cpp by returning a reference to the object not a copy
+    //see diference between Person and Person& in person.h and person.cpp
     cout << "Alice is now at " << person.x << " meters" << endl;
 
     return 0;

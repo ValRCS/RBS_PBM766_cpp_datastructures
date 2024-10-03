@@ -23,11 +23,11 @@ class Person {
         //destructor
         ~Person();
         //methods
-        Person print();
+        Person& print();
         void jump(double height);
         void eat(std::string food);
         //lets declare a move function that returns the object itself
-        Person move(double distance);
+        Person& move(double distance);
 };
 
 #endif

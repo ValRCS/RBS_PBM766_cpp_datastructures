@@ -18,7 +18,7 @@ Person::~Person() {
 }
 
 //methods
-Person Person::print() {
+Person& Person::print() {
     cout << "Person " << name << " is " << age << " years old"  << " x " << x << endl;
     return *this; //this makes the method chainable, we are returning ourselves
 }
@@ -34,7 +34,7 @@ void Person::eat(string food) {
 }
 
 //lets implement the move function
-Person Person::move(double distance) {
+Person& Person::move(double distance) {
     //there could be some logic here to test if the person can move that far
     x += distance;
     cout << "Person " << name << " moved " << distance << " meters" << endl;
