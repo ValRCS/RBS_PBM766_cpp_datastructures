@@ -21,9 +21,11 @@ class Animal {
             cout << "I can sleep!" << endl;
         }
         void setAllergies(string allergies) {
+            //you would add validation here
             this->allergies = allergies;
         }
         string getAllergies() {
+            //you could add validation here
             return allergies;
         }
 
