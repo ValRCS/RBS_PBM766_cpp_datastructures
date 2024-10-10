@@ -85,6 +85,8 @@ int main() {
     //print size of integer on this system
     cout << "Size of integer: " << sizeof(int) << endl;
 
+
+
     //so you need to keep track of how many elements you have allocated
     //so you should have used some constant like const int ARR_SIZE = 10; to keep track of the size
 
