@@ -108,8 +108,8 @@ int main() {
     cout << "Are first two clocks equal? " << (c1 == c2) << endl; //we have to use parenthesis because == has lower precedence than <<
     //let's increment the second clock by 1 second
     c2.incrementSecond();
-    ++c2; //same as c2.incrementSecond(); //i've define the prefix increment operator
-    c2++; //same as c2.incrementSecond(); //i've define the postfix increment operator
+    ++c2; //same as c2.incrementSecond(); //i've defined the prefix increment operator
+    c2++; //same as c2.incrementSecond(); //i've defined the postfix increment operator
     c2.printTime();
     //we can also output the time using the << operator
     cout << c2 << endl; //nicer than c2.printTime(); isn't it?
