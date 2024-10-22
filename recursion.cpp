@@ -13,6 +13,7 @@ using namespace std;
 
 //lets start with recursive factorial
 long factorial(long n){
+    //our base case
     if(n == 0){
         return 1;
     }
@@ -30,7 +31,8 @@ long fibonacci(long n){
     if(n == 1){
         return 1;
     }
-    return fibonacci(n-1) + fibonacci(n-2);
+    return fibonacci(n-1) + fibonacci(n-2); //so this part without optimization is O(2^n)
+    //the tree of recursive calls grows exponentially
 }
 
 //let's implement fibonacci with memoization
@@ -51,12 +53,57 @@ long fibonacci_memo(long n, long *memo, size_t memo_size){
 
     //check if we have already calculated this value
     if(memo[n] != -1){
-        return memo[n];
+        return memo[n]; //this is what saves us from exponential growth
     }
     //if not, calculate it and store it in memo
     memo[n] = fibonacci_memo(n-1, memo, memo_size) + fibonacci_memo(n-2, memo, memo_size);
     //this is very dangerous if we do not know how big our array is
     return memo[n];
+}
+
+//let's create a tail recursive solution to fibonacci for better performance
+//we will need a helper function to wrap the tail recursive function
+//let's start with the actual tail recursive function
+
+long fibonacci_tail_recursive(long n, long a, long b){
+    //first we have two base cases
+    if(n == 0){
+        return a;
+    }
+    if(n == 1){
+        return b;
+    }
+    //key property of tail recursive function is that it only calls itself at the very end
+    //the compiler can optimize this to a loop
+    return fibonacci_tail_recursive(n-1, b, a+b); //note only one recursive call!
+    //thus we can avoid stack overflow
+    //also we get O(n) complexity for the cost of storing some variables
+}
+
+//we also need a wrapper function to call the tail recursive function
+long fibonacci_tail_recursive_wrapper(long n){
+    return fibonacci_tail_recursive(n, 0, 1); // in essence we initialize a=0 and b=1
+}
+
+//let's create a simple loop based fibonacci function
+long fibonacci_loop(long n){
+    //first we have two base cases
+    if(n == 0){
+        return 0;
+    }
+    if(n == 1){
+        return 1;
+    }
+    long a = 0;
+    long b = 1;
+    long c;
+    for(size_t i = 2; i <= size_t(n); i++){
+        //we are using a temporary variable to store the sum to swap values
+        c = a + b;
+        a = b;
+        b = c;
+    }
+    return c;
 }
 
 int main(int argc, char const *argv[]){
@@ -66,6 +113,8 @@ int main(int argc, char const *argv[]){
         cout << "Usage: " << argv[0] << " -fact <number>" << endl;
         cout << "Usage: " << argv[0] << " -fib <number>" << endl;
         cout << "Usage: " << argv[0] << " -fibmemo <number>" << endl;
+        cout << "Usage: " << argv[0] << " -fibtail <number>" << endl;
+        cout << "Usage: " << argv[0] << " -fibloop <number>" << endl;
         //lets return error code
         return EXIT_FAILURE;
     }
@@ -96,7 +145,11 @@ int main(int argc, char const *argv[]){
         memo[0] = 0;
         memo[1] = 1;
         cout << fibonacci_memo(n, memo, n+1) << endl;
-    } else {
+    } else if (arg == "-fibtail"){
+        cout << fibonacci_tail_recursive_wrapper(n) << endl;
+    } else if (arg == "-fibloop"){
+        cout << fibonacci_loop(n) << endl;
+    } else { 
         cout << "Usage: " << argv[0] << " -f <number>" << endl;
         //lets return error code
         return EXIT_FAILURE;
