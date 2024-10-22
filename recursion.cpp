@@ -11,6 +11,99 @@
 
 using namespace std;
 
+//let's create a class that will simulate big numbers
+class BigNumber{
+    //we will use vector to store digits of the number
+    vector<int> digits;
+    //we will also store the sign of the number
+    bool isPositive;
+    //we will also store the base of the number
+    // int base; //we will use base 10 actually for simplicity //TODO add multiple base support later
+    //we will also store the number of digits
+    size_t num_digits;
+    
+
+public:
+    //first let's make a constructor that takes in string of digits
+    BigNumber(string number){
+        //we will need to check if the number is negative
+        if(number[0] == '-'){
+            isPositive = false;
+            //we will need to remove the negative sign
+            number = number.substr(1);
+        } else {
+            isPositive = true;
+        }
+        //we will need to store the number of digits
+        num_digits = number.size();
+        //we will need to store the digits in reverse order
+        for(size_t i = 0; i < num_digits; i++){
+            digits.push_back(number[num_digits - i - 1] - '0'); //we are converting char to int
+        }
+    }
+
+    //we will need a helper function to add two numbers
+    BigNumber add(BigNumber &other){
+        //we need to start with first digit and simply add the digits
+        //and we would implement carry
+        //we will need to check if the numbers are of the same sign
+        //if signs are different, we will need to subtract the numbers
+        
+        //lets start with easy case when both numbers are positive
+        //so we loop from first digits and simply keep track of carry until we reach the end of one the numbers
+        //if one number is longer, we will need to add the rest of the digits
+        
+        //lets set up carry
+        int carry = 0;
+        //new number will be stored in this vector
+        vector<int> new_digits;
+        //now simply loop through the digits and add them starting from the first digit
+        for(size_t i = 0; i < num_digits || i < other.num_digits; i++){
+            //we will need to add the digits and carry
+            int sum = carry;
+            //we will need to check if we have digits in the first number
+            if(i < num_digits){
+                sum += digits[i];
+            }
+            //we will need to check if we have digits in the second number
+            if(i < other.num_digits){
+                sum += other.digits[i];
+            }
+            //we will need to calculate the carry
+            carry = sum / 10;
+            //we will need to calculate the digit
+            new_digits.push_back(sum % 10);
+        }
+        //we will need to check if we have carry left
+        if(carry){
+            new_digits.push_back(carry);
+        }
+        //we will need to update the number of digits
+        num_digits = new_digits.size();
+        //now we need to create a new BigNumber object using the new digits
+        //lets convert the vector to string
+        string new_number = "";
+        for(size_t i = 0; i < num_digits; i++){
+            new_number += to_string(new_digits[num_digits - i - 1]); //this might not be efficient
+        }
+        //we will need to return a new BigNumber object 
+        return BigNumber(new_number);
+    }
+
+    //we want to create friend function for cout to print the number
+    friend ostream& operator<<(ostream &os, const BigNumber &number){
+        //we will need to print the sign
+        if(!number.isPositive){
+            os << "-";
+        }
+        //we will need to print the digits in reverse order
+        for(size_t i = 0; i < number.num_digits; i++){
+            os << number.digits[number.num_digits - i - 1];
+        }
+        return os;
+    }
+};
+
 //lets start with recursive factorial
 long factorial(long n){
     //our base case
@@ -65,6 +158,9 @@ long fibonacci_memo(long n, long *memo, size_t memo_size){
 //we will need a helper function to wrap the tail recursive function
 //let's start with the actual tail recursive function
 
+//tail recursive solutions can be optimized by the compiler to loops
+//it optimizes the stack space - often reusing the same stack frame from the previous call
+
 long fibonacci_tail_recursive(long n, long a, long b){
     //first we have two base cases
     if(n == 0){
@@ -115,6 +211,7 @@ int main(int argc, char const *argv[]){
         cout << "Usage: " << argv[0] << " -fibmemo <number>" << endl;
         cout << "Usage: " << argv[0] << " -fibtail <number>" << endl;
         cout << "Usage: " << argv[0] << " -fibloop <number>" << endl;
+        cout << "Usage: " << argv[0] << " -big <number>" << endl;
         //lets return error code
         return EXIT_FAILURE;
     }
@@ -149,6 +246,14 @@ int main(int argc, char const *argv[]){
         cout << fibonacci_tail_recursive_wrapper(n) << endl;
     } else if (arg == "-fibloop"){
         cout << fibonacci_loop(n) << endl;
+    } else if (arg == "-big"){
+        string argument = argv[2];
+        // BigNumber big_number("1234556"); //we need to convert from char*(C style string) to string (C++ style string)
+        BigNumber big_number(argument); //we need to convert from char*(C style string) to string (C++ style string)
+        cout << big_number << endl;
+        BigNumber big_number2("1234556");
+        BigNumber result = big_number.add(big_number2);
+        cout << result << endl;
     } else { 
         cout << "Usage: " << argv[0] << " -f <number>" << endl;
         //lets return error code
