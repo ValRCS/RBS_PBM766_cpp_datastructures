@@ -20,3 +20,4 @@ templates
 fact
 assert
 except
+cexcept
