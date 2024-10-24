@@ -6,9 +6,15 @@ using namespace std;
 
 //we will check for division by zero in main
 
-int main() {
-    int a = 10;
-    int b = 0;
+int main(int argc, char* argv[]) {
+    int a = 100'000'000; //' is just a separator for readability
+    // int b = 0;
+    // int b = -50;
+    // int b = -50;
+    int b = 0; //default in case no argument is passed
+    if (argc > 1) {
+        b = atoi(argv[1]); //if atoi fails, it returns 0
+    }
 
 //so if make a try block I need have at least one catch block to catch the exception
     try {
@@ -18,12 +24,37 @@ int main() {
         }
         //this means we survived the division by zero
         //we are guaranteed that b is not zero
+        //we could throw more things such as say negative numbers
+        if (b < 0) {
+            // throw "Division by negative number"; this would be handled by same catch block as above
+            //let's throw a negative number exception instead
+            throw b; //we throw an int here we could have thrown any type
+        }
+        //we could throw a specific exception type such as runtime_error
+        //lets throw runtime error on b being over 9000
+        if (b > 9000) {
+            throw runtime_error("It's over 9000!"); //we throw a runtime_error here
+            //runtime_error is a standard exception type in C++
+            //it is defined in the stdexcept header file
+        }
+
         cout << a / b << endl;
     } catch (const char* msg) {
         //this is the catch block that will catch the exception
         //we can do whatever else we would like to do here when b is zero
         //msg is the message that was thrown
         cout << "Exception caught: " << msg << endl;
+    } catch (int num) {
+        //this is the catch block that will catch the exception
+        //we can do whatever else we would like to do here when b is negative
+        //num is the number that was thrown
+        cout << "Exception caught: " << num << endl;
+    } //now I will handle runtime_error
+    catch (runtime_error& e) {
+        //this is the catch block that will catch the exception
+        //we can do whatever else we would like to do here when b is over 9000
+        //e is the runtime_error object that was thrown
+        cout << "Exception caught: " << e.what() << endl;
     }
   
 
