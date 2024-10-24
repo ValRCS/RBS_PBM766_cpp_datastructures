@@ -18,6 +18,14 @@ int main(int argc, char* argv[]) {
 
 //so if make a try block I need have at least one catch block to catch the exception
     try {
+        //lets just divide by b without throwing any exceptions
+        //this will crash the program if b is zero
+        // cout << a / b << endl; //in Python, this would throw a ZeroDivisionError
+        //in Java, this would throw an ArithmeticException
+        //in C++ we have to do the checking ourselves
+        //could we handle the exception here?
+        //no, we cannot handle the exception here without throwing it
+
         //if b is zero, we will throw an exception
         if (b == 0) {
             throw "Division by zero"; //we throw a c string here
@@ -55,6 +63,14 @@ int main(int argc, char* argv[]) {
         //we can do whatever else we would like to do here when b is over 9000
         //e is the runtime_error object that was thrown
         cout << "Exception caught: " << e.what() << endl;
+    } catch (...) {
+        //this is the catch block that will catch any other exception
+        //we can do whatever else we would like to do here
+        //such as logging the exception
+        //usually we would want to rethrow the exception here
+        //we do not just want to handle an unknown exception here and move on like nothing happened
+        //that would be bad practice - leads to bugs and silent failures
+        cout << "Some other exception caught" << endl;
     }
   
 
