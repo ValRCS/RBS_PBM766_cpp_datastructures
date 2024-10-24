@@ -56,6 +56,10 @@ int main(int argc, char* argv[]) {
             cout << "Exception caught: " << e.what() << endl;
             //again nothing we can do with age
             //so lets return
+            //we could have rethrown the exception with throw;
+            //simple throw; will rethrow the exception that was caught
+            //you could also throw a new exception 
+            //throw runtime_error("Out of range exception");
             return EXIT_FAILURE;
         }
     }
