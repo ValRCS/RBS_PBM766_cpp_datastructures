@@ -46,25 +46,23 @@ class LinkedList {
             }
         }
 
-        //TODO make adding to the end of the list O(1) operation!!
         //method to add a node to the end of the list
         void addNode(int data) {
             Node* newNode = new Node(); //create a new node by allocating memory for it
             newNode->data = data; //set the data of the new node to the data passed in
             newNode->next = nullptr; //set the next pointer of the new node to nullptr
 
+            //again O(1) operation to add to the end of the list
             //if the list is empty, set the head to the new node
             if (head == nullptr) {
                 head = newNode;
             } else {
-                //otherwise, traverse the list to the end and add the new node
-                Node* current = head;
-                //this is O(n) operation, not optimal
-                while (current->next != nullptr) {
-                    current = current->next;
-                }
-                current->next = newNode;
+                //if the list is not empty, set the next pointer of the current tail to the new node
+                tail->next = newNode;
+                //set the tail to the new node
             }
+            //we always set the tail to the new node
+            tail = newNode;          
         }
 
         //method to print the list
@@ -105,7 +103,7 @@ class LinkedList {
         //this will be linear by default, O(n)
         Node* findNode(int data) {
             Node* current = head;
-            while (current != NULL && current->data != data) {
+            while (current != nullptr && current->data != data) {
                 current = current->next;
             }
             return current;
@@ -131,6 +129,10 @@ int main() {
     list.deleteNode(3);
 
     //print the list again
+    list.printList();
+
+    //add at the beginning of the list
+    list.addNodeAtBeginning(100); //O(1) operation
     list.printList();
 
     //find a node in the list
