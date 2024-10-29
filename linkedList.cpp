@@ -19,12 +19,34 @@ struct Node {
 class LinkedList {
     private:
         Node* head; //pointer to the first node in the list
+        //tail would be helpful to add to the end of the list in O(1) time
+        Node* tail; //pointer to the last node in the list
     public:
     //default constructor to initialize the head to nullptr meaning our LinkedList is empty
         LinkedList() {
             head = nullptr; //initialize head to nullptr
+            tail = nullptr; //initialize tail to nullptr
         }
 
+        //let's add method to add to the beginning of the list
+        //this will be O(1) operation - what we want!
+        void addNodeAtBeginning(int data) {
+            Node* newNode = new Node(); //create a new node by allocating memory for it
+            newNode->data = data; //set the data of the new node to the data passed in
+            //at this moment newNode is dangling, it's not connected to the list
+            newNode->next = head; //set the next pointer of the new node to the current head
+
+            head = newNode; //set the head to the new node
+            //if we did not set head to newNode, we would not know how to find the new node
+            //we might also need to set tail to newNode if the list was empty
+
+            //if the list was empty, set the tail to the new node
+            if (tail == nullptr) {
+                tail = newNode;
+            }
+        }
+
+        //TODO make adding to the end of the list O(1) operation!!
         //method to add a node to the end of the list
         void addNode(int data) {
             Node* newNode = new Node(); //create a new node by allocating memory for it
