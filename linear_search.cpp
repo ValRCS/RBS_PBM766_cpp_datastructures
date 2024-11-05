@@ -57,7 +57,7 @@ void delete_array(int *arr){
 //now let's make our main
 int main(int argc, char *argv[]){
     if(argc != 5){
-        cout << "Usage: " << argv[0] << " <size of array> <offset> <target integer> <-bin|-lin|-algolin|-algobin>" << endl;
+        cout << "Usage: " << argv[0] << " <size of array> <offset> <target integer> <-bin|-lin|-algolin|-algobin|-algolower>" << endl;
         return 1;
     }
     size_t n = stoi(argv[1]);
@@ -94,6 +94,15 @@ int main(int argc, char *argv[]){
             //to get index we need to use different function since binary_search returns a boolean
         }else{
              cout << "Target integer not found" << endl;
+        }
+    } else if (string(argv[4]) == "-algolower"){
+        //so lower_bound is a binary search algorithm that returns the first element that is not less than the target
+        //docs: https://en.cppreference.com/w/cpp/algorithm/lower_bound
+        auto it = lower_bound(arr, arr + n, target);
+        if(it == arr + n){
+            cout << "Target integer not found" << endl;
+        }else{
+            cout << "Target integer " << target << " == " << *it << " found at index: " << it - arr << endl; //pointer arithmetic
         }
     }
     else{
