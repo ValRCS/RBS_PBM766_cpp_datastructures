@@ -165,9 +165,45 @@ class BinaryTree {
             preOrderTraversal(node->left);
             preOrderTraversal(node->right);
         }
+
+        //let's do in order traversal
+        void inOrderTraversal(Node* node) {
+            //we need a base case scenario
+            if(node == nullptr) {
+                return;
+            }
+            //we make two recursive calls then
+            inOrderTraversal(node->left);
+            cout << node->data << " "; //so called visit, here it is just printing
+            inOrderTraversal(node->right);
+        }
+
+        //finally we do post order traversal
+        void postOrderTraversal(Node* node) {
+            //we need a base case scenario
+            if(node == nullptr) {
+                return;
+            }
+            //we make two recursive calls then
+            postOrderTraversal(node->left);
+            postOrderTraversal(node->right);
+            cout << node->data << " "; //so called visit, here it is just printing
+        }
+
+        //let's make a function to determine a  height of a tree
+        int height(Node* node) {
+            if(node == nullptr) {
+                return -1; //we count how many edges we have so -1 for no edges
+            }
+            //so this means we have a node here
+            int leftHeight = height(node->left);
+            int rightHeight = height(node->right);
+            return max(leftHeight, rightHeight) + 1; //so root will have height 0
+        }
 };
 
 int main() {
+    cout << "Making a regular binary tree" << endl;
     BinaryTree bt;
     bt.insert(1);
     bt.insert(2);
@@ -182,5 +218,15 @@ int main() {
     // bt.levelOrderTraversal();
     cout << "Pre order traversal: " << endl;
     bt.preOrderTraversal(bt.root);
+    cout << endl;
+    cout << "In order traversal: " << endl;
+    bt.inOrderTraversal(bt.root);
+    cout << endl;
+    cout << "Post order traversal: " << endl;
+    bt.postOrderTraversal(bt.root);
+    cout << endl;
+    //now height of the tree
+    cout << "Height of the tree: " << bt.height(bt.root) << endl;
+
     return 0;
 }
