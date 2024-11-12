@@ -112,15 +112,56 @@ public:
         }
         cout << "Graph deleted" << endl;
     }
+
+    //lets add a Depth First Search that check whether one can reach dst from src
+    bool dfs(string src, string dst) {
+        //create a visited set
+        unordered_set<string> visited;
+        //call the recursive helper function
+        return dfsHelper(src, dst, visited);
+    }
+
+    //recursive helper function for dfs
+    bool dfsHelper(string src, string dst, unordered_set<string>& visited) {
+        //base case if src is dst return true
+        if (src == dst) {
+            return true;
+        }
+        //mark src as visited
+        visited.insert(src);
+        //check all neighbors
+        for (auto neighbor : adjList[src]) {
+            //if neighbor is not visited call dfsHelper recursively
+            if (visited.find(neighbor.first) == visited.end()) {
+                //so we do a recursive call
+                if (dfsHelper(neighbor.first, dst, visited)) {
+                    return true;
+                }
+            }
+        }
+        //if we reach here that means we cannot reach dst from src
+        return false;
+    }
 };
 
 //lets add argc and argv if there is an argument that means a a csv file name is provided
 int main(int argc, char* argv[]) {
-    if (argc > 1) {
+    if (argc == 2) {
         Graph graph(argv[1]);
         graph.print();
         return EXIT_SUCCESS;
     }
+    //if there are 4 arguments then we are checking if we can reach dst from src from that graph
+    if (argc == 4) {
+        Graph graph(argv[1]);
+        if (graph.dfs(argv[2], argv[3])) {
+            cout << "Can reach " << argv[3] << " from " << argv[2] << endl;
+        } else {
+            cout << "Cannot reach " << argv[3] << " from " << argv[2] << endl;
+        }
+        return EXIT_SUCCESS;
+    }
+
     Graph graph;
     //no need to add nodes anymore since we are adding nodes when adding edges
     // graph.addNode("A");
