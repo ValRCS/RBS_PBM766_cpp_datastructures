@@ -69,7 +69,7 @@ public:
         for (auto node : nodes) {
             cout << node->id << " -> ";
             for (auto neighbor : adjList[node->id]) {
-                cout << neighbor.first << "(" << neighbor.second << ") ";
+                cout << "Neighbor:" << neighbor.first << "(weight:" << neighbor.second << ") ";
             }
             cout << endl;
         }
@@ -128,6 +128,7 @@ int main(int argc, char* argv[]) {
     // graph.addNode("C");
     // graph.addNode("D");
     graph.addEdge("A", "B", 1);
+    graph.addEdge("A", "C", 3);
     graph.addEdge("B", "C", 2);
     graph.addEdge("C", "D", 3);
     graph.addEdge("D", "A", 4);
