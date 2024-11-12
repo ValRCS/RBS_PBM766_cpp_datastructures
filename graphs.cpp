@@ -7,6 +7,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
+#include <set> //this is ordered set in C++! meaning O(logn) operations
 #include <vector>
 #include <string>
 #include <fstream>
@@ -114,33 +115,58 @@ public:
     }
 
     //lets add a Depth First Search that check whether one can reach dst from src
-    bool dfs(string src, string dst) {
+    //let's return a path if it exists or empty vector if it does not exist
+    vector<string> dfs(string src, string dst) {
         //create a visited set
         unordered_set<string> visited;
+        //lets use vector to store the path
+        vector<string> path;
         //call the recursive helper function
-        return dfsHelper(src, dst, visited);
+        bool isPath = dfsHelper(src, dst, visited, path);
+        return isPath ? vector<string>(path.begin(), path.end()) : vector<string>();
     }
 
     //recursive helper function for dfs
-    bool dfsHelper(string src, string dst, unordered_set<string>& visited) {
+    bool dfsHelper(string src, 
+                string dst, 
+                unordered_set<string>& visited,
+                vector<string>& path) {
         //base case if src is dst return true
         if (src == dst) {
+            path.push_back(src);
             return true;
         }
         //mark src as visited
         visited.insert(src);
+        path.push_back(src);
         //check all neighbors
         for (auto neighbor : adjList[src]) {
             //if neighbor is not visited call dfsHelper recursively
             if (visited.find(neighbor.first) == visited.end()) {
                 //so we do a recursive call
-                if (dfsHelper(neighbor.first, dst, visited)) {
+                if (dfsHelper(neighbor.first, dst, visited, path)) {
                     return true;
                 }
             }
         }
         //if we reach here that means we cannot reach dst from src
         return false;
+    }
+
+    //let's make a function that takes in path and returns cost of the path
+    double pathCost(vector<string> path) {
+        //this function will return true cost as long as the path is valid
+        //otherwise it will only return cost the valid part of the path
+        double cost = 0;
+        for (size_t i = 0; i < path.size() - 1; i++) {
+            for (auto neighbor : adjList[path[i]]) {
+                if (neighbor.first == path[i + 1]) {
+                    cost += neighbor.second;
+                    break;
+                }
+            }          
+        }
+        return cost;
     }
 };
 
@@ -154,10 +180,16 @@ int main(int argc, char* argv[]) {
     //if there are 4 arguments then we are checking if we can reach dst from src from that graph
     if (argc == 4) {
         Graph graph(argv[1]);
-        if (graph.dfs(argv[2], argv[3])) {
-            cout << "Can reach " << argv[3] << " from " << argv[2] << endl;
+        vector<string> path = graph.dfs(argv[2], argv[3]);
+        if (path.size() > 0) {
+            cout << "Path exists: ";
+            for (auto node : path) {
+                cout << node << " ";
+            }
+            cout << endl;
+            cout << "Path cost: " << graph.pathCost(path) << endl;
         } else {
-            cout << "Cannot reach " << argv[3] << " from " << argv[2] << endl;
+            cout << "Path does not exist" << endl;
         }
         return EXIT_SUCCESS;
     }
