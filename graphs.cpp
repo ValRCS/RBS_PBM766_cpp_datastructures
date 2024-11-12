@@ -31,6 +31,8 @@ struct Edge {
 class Graph {
     //unordered set to store the nodes
     unordered_set<Node*> nodes;
+    //set of node ids to make it simpler to check if node exists
+    unordered_set<string> nodeIds;
     //unordered set to store the edges
     unordered_set<Edge*> edges;
     //unordered map to store the adjacency list of the graph
@@ -41,17 +43,19 @@ public:
     void addNode(string id) {
         Node* node = new Node(id);
         nodes.insert(node);
+        nodeIds.insert(id);
     }
 
     //add edge to the graph
     void addEdge(string src, string dest, double weight) {
         //let's add nodes if they are not in the graph
-        if (nodes.find(new Node(src)) == nodes.end()) {
+        if (nodeIds.find(src) == nodeIds.end()) {
             addNode(src);
         }
-        if (nodes.find(new Node(dest)) == nodes.end()) {
+        if (nodeIds.find(dest) == nodeIds.end()) {
             addNode(dest);
         }
+        //could add a check to see if src and dest are the same and if Edge already exists
         Edge* edge = new Edge(src, dest, weight);
         edges.insert(edge);
         adjList[src].push_back({dest, weight});
